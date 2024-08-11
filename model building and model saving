@@ -1,0 +1,27 @@
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=42)
+
+from imblearn.combine import SMOTEENN
+
+smote_enn = SMOTEENN(random_state=42)
+x_train_r, y_train_r = smote_enn.fit_resample(x_train, y_train)
+
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
+
+def evaluate_DT(criterion,max_depth,x_train_r,x_test,y_train_r,y_test):
+  dt=DecisionTreeClassifier(class_weight='balanced',criterion=criterion,max_depth=max_depth,random_state=42)
+  dt.fit(x_train_r,y_train_r)
+  joblib.dump(dt,'/content/drive/MyDrive/models/DT_model_diabetes.sav' )
+  print(f"Best model saved to {'/content/drive/MyDrive/models'}")
+  y_predict=dt.predict(x_test)
+  acc=accuracy_score(y_test,y_predict)
+  report = classification_report(y_test,y_predict)
+  cm = confusion_matrix(y_test,y_predict)
+  return acc,report,cm
+
+acc_entropy,report_entropy,cm_entropy = evaluate_DT("entropy",10,x_train_r,x_test,y_train_r,y_test)
+print("Accuracy:",acc_entropy)
+print("Classification Report:\n",report_entropy)
+print("Confusion Matrix:\n",cm_entropy)
+
