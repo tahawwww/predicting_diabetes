@@ -20,3 +20,7 @@ Before you begin, ensure you have the following:
 2. **Libraries**: Install the required libraries using pip:
    ```bash
    pip install pandas scikit-learn joblib fastapi uvicorn imbalanced-learn gradio  # or streamlit
+
+  ## here is my hugging face space
+  https://huggingface.co/spaces/tahaww/predicting_diabetes 
+  please check it later
